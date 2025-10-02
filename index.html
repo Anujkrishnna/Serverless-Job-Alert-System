@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serverless Job Alert System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom animation keyframes */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-fade-in {
+            animation: fadeIn 1s ease-out forwards;
+        }
+        /* This will be applied via JavaScript for staggered effect */
+        .job-card {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideUp 0.5s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-200">
+
+    <div class="container mx-auto px-4 py-12 md:py-20 animate-fade-in">
+        
+        <!-- Header Section -->
+        <header class="text-center mb-16">
+            <h1 class="text-4xl md:text-6xl font-bold text-white tracking-tight">
+                Serverless Job Alert System
+            </h1>
+            <p class="mt-4 text-lg md:text-xl text-slate-400 max-w-3xl mx-auto">
+                An automated, serverless system on AWS that scrapes job sites daily, stores new listings, and sends email alerts.
+            </p>
+        </header>
+
+        <!-- Architecture Section -->
+        <section class="mb-16">
+            <h2 class="text-2xl md:text-3xl font-bold text-center text-white mb-10">Project Architecture</h2>
+            <div class="flex flex-col md:flex-row items-center justify-center space-y-8 md:space-y-0 md:space-x-8 text-center">
+                
+                <!-- Lambda -->
+                <div class="flex flex-col items-center">
+                    <div class="bg-slate-800 p-6 rounded-full shadow-lg">
+                        <svg class="w-12 h-12 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"></path></svg>
+                    </div>
+                    <h3 class="mt-4 text-lg font-semibold text-white">AWS Lambda</h3>
+                    <p class="text-slate-400">Daily Scraping</p>
+                </div>
+
+                <div class="text-cyan-400 transform md:rotate-0 rotate-90">
+                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 md:w-16 md:h-16"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </div>
+                
+                <!-- DynamoDB -->
+                <div class="flex flex-col items-center">
+                    <div class="bg-slate-800 p-6 rounded-full shadow-lg">
+                        <svg class="w-12 h-12 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path></svg>
+                    </div>
+                    <h3 class="mt-4 text-lg font-semibold text-white">DynamoDB</h3>
+                    <p class="text-slate-400">Store Listings</p>
+                </div>
+
+                <div class="text-cyan-400 transform md:rotate-0 rotate-90">
+                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 md:w-16 md:h-16"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </div>
+                
+                <!-- SNS -->
+                <div class="flex flex-col items-center">
+                    <div class="bg-slate-800 p-6 rounded-full shadow-lg">
+                        <svg class="w-12 h-12 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    </div>
+                    <h3 class="mt-4 text-lg font-semibold text-white">Amazon SNS</h3>
+                    <p class="text-slate-400">Send Email Alerts</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Job Listings -->
+        <main>
+            <h2 class="text-2xl md:text-3xl font-bold text-center text-white mb-4">Live Job Listings</h2>
+            <p class="text-center text-slate-400 mb-10">Showing simulated data from the database.</p>
+            
+            <!-- Filter Tabs -->
+            <div id="filter-tabs" class="flex flex-wrap items-center justify-center gap-2 md:gap-4 mb-10">
+                <button data-category="all" class="filter-btn active-btn px-4 py-2 text-sm md:text-base font-semibold rounded-full transition-all duration-300">All Jobs</button>
+                <button data-category="Software Engineer" class="filter-btn px-4 py-2 text-sm md:text-base font-semibold rounded-full transition-all duration-300">Software Engineer</button>
+                <button data-category="DevOps" class="filter-btn px-4 py-2 text-sm md:text-base font-semibold rounded-full transition-all duration-300">DevOps</button>
+                <button data-category="Cloud Architect" class="filter-btn px-4 py-2 text-sm md:text-base font-semibold rounded-full transition-all duration-300">Cloud Architect</button>
+            </div>
+            
+            <!-- Job Grid -->
+            <div id="job-listings-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Job cards will be injected here by JavaScript -->
+            </div>
+        </main>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // Mock data simulating what comes from DynamoDB
+            const jobs = [
+                { id: 1, title: 'Senior Frontend Engineer', company: 'Vercel', location: 'Remote', description: 'Build and maintain our core user interface using Next.js and React.', category: 'Software Engineer', url: 'https://vercel.com/careers' },
+                { id: 2, title: 'Cloud Infrastructure Engineer', company: 'AWS', location: 'Seattle, WA', description: 'Manage and scale our global cloud infrastructure. Deep knowledge of AWS services required.', category: 'DevOps', url: 'https://www.amazon.jobs/en/search?base_query=Cloud+Infrastructure+Engineer' },
+                { id: 3, title: 'Solutions Architect', company: 'Google Cloud', location: 'New York, NY', description: 'Design and implement robust cloud solutions for enterprise clients.', category: 'Cloud Architect', url: 'https://careers.google.com/jobs/results/?q=Solutions%20Architect' },
+                { id: 4, title: 'Backend Developer (Python)', company: 'Stripe', location: 'Remote', description: 'Develop and optimize our payment processing APIs. Experience with Python and serverless is a plus.', category: 'Software Engineer', url: 'https://stripe.com/jobs/search?q=Backend' },
+                { id: 5, title: 'Site Reliability Engineer', company: 'Netflix', location: 'Los Gatos, CA', description: 'Ensure the reliability and performance of our streaming services.', category: 'DevOps', url: 'https://jobs.netflix.com/search?q=Site%20Reliability%20Engineer' },
+                { id: 6, title: 'Lead Software Engineer', company: 'Microsoft', location: 'Redmond, WA', description: 'Lead a team of engineers to build next-generation software products.', category: 'Software Engineer', url: 'https://careers.microsoft.com/us/en/search-results?keywords=Lead%20Software%20Engineer' },
+                { id: 7, title: 'DevOps Manager', company: 'DigitalOcean', location: 'Remote', description: 'Lead our DevOps team to automate and streamline our operations and processes.', category: 'DevOps', url: 'https://www.digitalocean.com/careers/jobs' },
+                { id: 8, title: 'Principal Cloud Architect', company: 'Oracle', location: 'Austin, TX', description: 'Drive the architectural vision for our cloud products and services.', category: 'Cloud Architect', url: 'https://www.oracle.com/careers/search-jobs/?q=Cloud%20Architect' },
+                { id: 9, title: 'Full Stack Engineer', company: 'GitHub', location: 'Remote', description: 'Work across our stack, from Rails backend to React frontend, to ship features for developers.', category: 'Software Engineer', url: 'https://github.com/about/careers' }
+            ];
+
+            const jobContainer = document.getElementById('job-listings-container');
+            const filterTabs = document.getElementById('filter-tabs');
+
+            const renderJobs = (filteredJobs) => {
+                jobContainer.innerHTML = ''; // Clear existing jobs
+                if (filteredJobs.length === 0) {
+                    jobContainer.innerHTML = `<p class="text-slate-400 text-center col-span-full">No jobs found for this category.</p>`;
+                    return;
+                }
+                
+                filteredJobs.forEach((job, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'job-card bg-slate-800/50 backdrop-blur-sm p-6 rounded-xl shadow-lg border border-slate-700/50 transform transition-all duration-300 hover:scale-[1.03] hover:border-cyan-400/50 cursor-pointer';
+                    card.style.animationDelay = `${index * 100}ms`;
+                    
+                    card.innerHTML = `
+                        <div class="flex justify-between items-start">
+                             <h3 class="text-xl font-bold text-white">${job.title}</h3>
+                             <span class="text-xs font-semibold text-cyan-400 bg-cyan-900/50 px-2 py-1 rounded-full">${job.category}</span>
+                        </div>
+                        <p class="text-slate-300 mt-1">${job.company}</p>
+                        <p class="text-slate-400 text-sm mt-1">${job.location}</p>
+                        <p class="mt-4 text-slate-300 leading-relaxed">${job.description}</p>
+                        <a href="${job.url}" target="_blank" rel="noopener noreferrer" class="inline-block mt-6 bg-cyan-500 text-white font-semibold px-5 py-2 rounded-md hover:bg-cyan-600 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-opacity-75 transition-colors">
+                            Apply Now
+                        </a>
+                    `;
+
+                    card.addEventListener('click', (e) => {
+                        // Let the 'Apply Now' link handle its own click event.
+                        // This prevents the card's click listener from opening a second tab.
+                        if (e.target.closest('a')) {
+                            return;
+                        }
+                        window.open(job.url, '_blank');
+                    });
+                    
+                    jobContainer.appendChild(card);
+                });
+            };
+
+            const handleFilterClick = (e) => {
+                const target = e.target;
+                if (!target.classList.contains('filter-btn')) return;
+
+                // Update active button style
+                filterTabs.querySelector('.active-btn').classList.remove('active-btn');
+                target.classList.add('active-btn');
+
+                const category = target.dataset.category;
+                let filteredJobs;
+
+                if (category === 'all') {
+                    filteredJobs = jobs;
+                } else {
+                    filteredJobs = jobs.filter(job => job.category === category);
+                }
+                
+                renderJobs(filteredJobs);
+            };
+
+            // Style for filter buttons
+            const styleButtons = () => {
+                const buttons = filterTabs.querySelectorAll('.filter-btn');
+                buttons.forEach(button => {
+                    button.classList.add('bg-slate-800', 'text-slate-300', 'hover:bg-slate-700');
+                    if(button.classList.contains('active-btn')){
+                       button.classList.remove('bg-slate-800', 'text-slate-300', 'hover:bg-slate-700');
+                       button.classList.add('bg-cyan-500', 'text-white', 'shadow-lg', 'shadow-cyan-500/20');
+                    }
+                });
+            };
+            
+            filterTabs.addEventListener('click', (e) => {
+                 handleFilterClick(e);
+                 styleButtons();
+            });
+
+            // Initial Render
+            renderJobs(jobs);
+            styleButtons(); // Initial style application
+        });
+    </script>
+</body>
+</html>
+
